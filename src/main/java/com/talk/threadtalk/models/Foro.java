@@ -6,19 +6,24 @@ import java.util.List;
 public class Foro {
 
     private int idForo;
-    private List<Mensaje> listaMensajes;
-    private List<Usuario> usuariosParticipantes;
+    private String nombre;
     private Date fechaCreacion;
     private Date fechaActualizacion;
     private String estado;
 
+    /*
+     * ESTO ES PARA PODER OBTENER EL FORO CON SUS MENSAJES Y PARTICIPANTES SIN
+     * AFECTAR EL MODELO DE LA TABLA EN BASE
+     */
+    private List<Mensaje> listaMensajes;
+    private List<Usuario> usuariosParticipantes;
+
     public Foro() {
     }
 
-    public Foro(int idForo, List<Mensaje> listaMensajes, List<Usuario> usuariosParticipantes, Date fechaCreacion, Date fechaActualizacion, String estado) {
+    public Foro(int idForo, String nombre, Date fechaCreacion, Date fechaActualizacion, String estado) {
         this.idForo = idForo;
-        this.listaMensajes = listaMensajes;
-        this.usuariosParticipantes = usuariosParticipantes;
+        this.nombre = nombre;
         this.fechaCreacion = fechaCreacion;
         this.fechaActualizacion = fechaActualizacion;
         this.estado = estado;
@@ -32,20 +37,12 @@ public class Foro {
         this.idForo = idForo;
     }
 
-    public List<Mensaje> getListaMensajes() {
-        return listaMensajes;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setListaMensajes(List<Mensaje> listaMensajes) {
-        this.listaMensajes = listaMensajes;
-    }
-
-    public List<Usuario> getUsuariosParticipantes() {
-        return usuariosParticipantes;
-    }
-
-    public void setUsuariosParticipantes(List<Usuario> usuariosParticipantes) {
-        this.usuariosParticipantes = usuariosParticipantes;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public Date getFechaCreacion() {
@@ -72,9 +69,30 @@ public class Foro {
         this.estado = estado;
     }
 
-    @Override
-    public String toString() {
-        return "Foro{" + "idForo=" + idForo + ", listaMensajes=" + listaMensajes + ", usuariosParticipantes=" + usuariosParticipantes + ", fechaCreacion=" + fechaCreacion + ", fechaActualizacion=" + fechaActualizacion + ", estado=" + estado + '}';
+    public List<Mensaje> getListaMensajes() {
+        return listaMensajes;
     }
 
+    public void setListaMensajes(List<Mensaje> listaMensajes) {
+        this.listaMensajes = listaMensajes;
+    }
+
+    public List<Usuario> getUsuariosParticipantes() {
+        return usuariosParticipantes;
+    }
+
+    public void setUsuariosParticipantes(List<Usuario> usuariosParticipantes) {
+        this.usuariosParticipantes = usuariosParticipantes;
+    }
+
+    @Override
+    public String toString() {
+        return "Foro{" +
+                "idForo=" + idForo +
+                ", nombre='" + nombre + '\'' +
+                ", fechaCreacion=" + fechaCreacion +
+                ", fechaActualizacion=" + fechaActualizacion +
+                ", estado='" + estado + '\'' +
+                '}';
+    }
 }
