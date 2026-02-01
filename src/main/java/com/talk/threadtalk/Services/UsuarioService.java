@@ -10,7 +10,7 @@ import com.talk.threadtalk.models.Usuario;
 
 public class UsuarioService {
 
-    private final UsuarioDAO usuarioDAO = new UsuarioDAO();
+    private UsuarioDAO usuarioDAO;
     /* CON ESTE FORMATO SE VA A INSERTAR LA FECHA EN MYSQL */
     private final SimpleDateFormat formatoFechaMySQL = new SimpleDateFormat("yyyy-MM-dd");
 
