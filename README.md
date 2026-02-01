@@ -45,6 +45,3 @@ Desarrollar una aplicación que permita:
 ## 🧱 Arquitectura del Proyecto
 
 El proyecto está organizado utilizando el patrón **MVC (Modelo - Vista - Controlador)** complementado con el patrón **DAO (Data Access Object)** para el acceso a datos.
-
-### 📦 Estructura General
-
