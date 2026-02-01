@@ -15,9 +15,9 @@ public class UsuarioDAO {
             throws SQLException {
         String sql = "INSERT INTO USUARIOS (nombres, username,password,fecha_nacimiento,fecha_registro,status) VALUES (?,?,?,?,SYSDATE,'A')";
         Connection cn = Conexion.getConexion();
-        try {
+
+        try (PreparedStatement ps = cn.prepareStatement(sql)) {
             /* SETEAMOS LOS PARAMETROS QUE VAN A IR EN EL QUERY */
-            PreparedStatement ps = cn.prepareStatement(sql);
             ps.setString(1, nombres);
             ps.setString(2, username);
             ps.setString(3, password);
@@ -41,10 +41,10 @@ public class UsuarioDAO {
     }
 
     public Usuario findUsuario(String username, String password) throws SQLException {
-        String sql = "SELECT * FROM USUARIOS WHERE USERNAME = ? AND PASSWORD = ? AND STATUS = 'A'";
+        String sql = "SELECT codigo_usuario, nombres, username, password, status, fecha_nacimiento, fecha_registro FROM USUARIOS WHERE USERNAME = ? AND PASSWORD = ? AND STATUS = 'A'";
         Connection cn = Conexion.getConexion();
-        try {
-            PreparedStatement ps = cn.prepareStatement(sql);
+        try (PreparedStatement ps = cn.prepareStatement(sql)) {
+            
             /* SETEAMOS PARAMETROS EN QUERY */
             ps.setString(1, username);
             ps.setString(2, password);
@@ -84,8 +84,7 @@ public class UsuarioDAO {
     public boolean eliminarUsuario(String username, String password) throws SQLException{
         String sql = "UPDATE USUARIOS SET STATUS = 'I' WHERE USERNAME = ? AND PASSWORD = ?";
         Connection cn = Conexion.getConexion();
-        try {
-            PreparedStatement ps = cn.prepareStatement(sql);
+        try (PreparedStatement ps = cn.prepareStatement(sql)) {
             ps.setString(1, username);
             ps.setString(2, password);
             int cols = ps.executeUpdate();
@@ -103,8 +102,7 @@ public class UsuarioDAO {
     public boolean actualizarUsuario(String nombres, String username, String password) throws SQLException{
         String sql = "UPDATE USUARIOS SET NOMBRES = ?, USERNAME = ?, PASSWORD = ? WHERE USERNAME = ? AND PASSWORD = ? AND STATUS = 'A'";
         Connection cn = Conexion.getConexion();
-        try {
-            PreparedStatement ps = cn.prepareStatement(sql);
+        try (PreparedStatement ps = cn.prepareStatement(sql);) {
             ps.setString(1, nombres);
             ps.setString(2, username);
             ps.setString(3, password);
