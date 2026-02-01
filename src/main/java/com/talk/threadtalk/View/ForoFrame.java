@@ -10,6 +10,7 @@ public class ForoFrame extends javax.swing.JFrame {
 
     public void changeForo(String type){
         ForoInfo foro = new ForoInfo(type);
+        
         foro.setVisible(true);
         this.dispose();
     }
