@@ -41,7 +41,7 @@ public class UsuarioDAO {
     }
 
     public Usuario findUsuario(String username, String password) throws SQLException {
-        String sql = "SELECT codigo_usuario, nombres, username, password, status, fecha_nacimiento, fecha_registro FROM USUARIOS WHERE USERNAME = ? AND PASSWORD = ? AND STATUS = 'A'";
+        String sql = "SELECT id_usuario, nombres, username, password, status, fecha_nacimiento, fecha_registro FROM USUARIOS WHERE USERNAME = ? AND PASSWORD = ? AND STATUS = 'A'";
         Connection cn = Conexion.getConexion();
         try (PreparedStatement ps = cn.prepareStatement(sql)) {
             
@@ -59,7 +59,7 @@ public class UsuarioDAO {
                      * USUARIO PARA RETORNARLO
                      */
                     Usuario u = new Usuario();
-                    u.setIdUsuario(rs.getInt("codigo_usuario"));
+                    u.setIdUsuario(rs.getInt("id_usuario"));
                     u.setNombres(rs.getString("nombres"));
                     u.setUsername(rs.getString("username"));
                     u.setPassword(rs.getString("password"));
@@ -69,10 +69,12 @@ public class UsuarioDAO {
                     return u;
                 }
             } catch (SQLException e) {
+                e.printStackTrace();
                 throw new RuntimeException("ERROR VALIDANDO USARIO -> " + e);
             }
             return null;
         } catch (SQLException e) {
+            e.printStackTrace();
             throw new RuntimeException("ERROR BUSCANDO USARIO -> " + e);
         } finally {
             if (cn != null) {
