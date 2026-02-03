@@ -10,7 +10,6 @@ import com.talk.threadtalk.models.Usuario;
 
 public class UsuarioService {
 
-    private UsuarioDAO usuarioDAO;
     /* CON ESTE FORMATO SE VA A INSERTAR LA FECHA EN MYSQL */
     private final SimpleDateFormat formatoFechaMySQL = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -18,6 +17,7 @@ public class UsuarioService {
             throws UsuarioException {
         validarCamposRegistro(nombres, username, password, fechaNacimientoStr);
         try {
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
             Date fechaNacimiento = formatoFechaMySQL.parse(fechaNacimientoStr);
             return usuarioDAO.createUser(
                     nombres.trim(),
@@ -43,11 +43,11 @@ public class UsuarioService {
         }
 
         try {
-
             /*
              * .TRIM() PARA EVITAR LOS ESPACIOS EN BALNCO Y LLAMAR AL DAO QUE BUSCA EN BASE
              * USUARIO
              */
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
             Usuario usuario = usuarioDAO.findUsuario(username.trim(), password.trim());
 
             if (usuario == null) {
@@ -56,6 +56,7 @@ public class UsuarioService {
 
             return usuario;
         } catch (Exception e) {
+            e.printStackTrace();
             throw new UsuarioException("Error al iniciar sesión", e);
         }
     }
@@ -68,6 +69,7 @@ public class UsuarioService {
 
         try {
             /* METODO PARA ELIMINAR UN REGISTRO LOGICO */
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
             boolean eliminado = usuarioDAO.eliminarUsuario(username.trim(), password.trim());
             if (!eliminado) {
                 throw new UsuarioException("No se pudo eliminar el usuario");
@@ -95,6 +97,7 @@ public class UsuarioService {
         }
 
         try {
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
             boolean actualizado = usuarioDAO.actualizarUsuario(nombres.trim(), username.trim(), password.trim());
 
             if (!actualizado) {
@@ -111,7 +114,6 @@ public class UsuarioService {
      * VALIDACION PARA EVITAR EXTENDER EL METODO DE REGISTRO POR ESO
      * ES MEJOR SEPARAR TAREAS 
      */
-
     private void validarCamposRegistro(String nombres, String username, String password, String fechaNacimiento)
             throws UsuarioException {
 

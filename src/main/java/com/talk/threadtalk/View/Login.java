@@ -20,9 +20,6 @@ public class Login extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
     }
-
-    UsuarioService userService;
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -180,6 +177,7 @@ public class Login extends javax.swing.JFrame {
         String password = txtPassword.getText().trim();
 
         try {
+            UsuarioService userService = new UsuarioService();
             Usuario usuario = userService.login(username, password);
             JOptionPane.showMessageDialog(this, "Bienvenido " + usuario.getNombres(),
                     "ThreadTalk",
@@ -203,6 +201,7 @@ public class Login extends javax.swing.JFrame {
 
     private void txtPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            System.out.println("SAPE!");
             btnLogin.doClick();
         }
     }//GEN-LAST:event_txtPasswordKeyPressed
