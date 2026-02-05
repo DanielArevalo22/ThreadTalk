@@ -3,14 +3,21 @@ package com.talk.threadtalk.View;
 
 public class ForoFrame extends javax.swing.JFrame {
 
+    private int idUser;
+    
     public ForoFrame() {
         initComponents();
         this.setLocationRelativeTo(null);
     }
+    
+    public ForoFrame(int idUsuario) {
+        initComponents();
+        this.setLocationRelativeTo(null);
+        this.idUser = idUsuario;
+    }
 
-    public void changeForo(String type){
-        ForoInfo foro = new ForoInfo(type);
-        
+    public void changeForo(String type, int idUsuario){
+        ForoInfo foro = new ForoInfo(type, idUsuario);
         foro.setVisible(true);
         this.dispose();
     }
@@ -27,6 +34,7 @@ public class ForoFrame extends javax.swing.JFrame {
         btnMusic = new javax.swing.JButton();
         btnCinema = new javax.swing.JButton();
         btnExit = new javax.swing.JButton();
+        btnCinema1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         lblUsername = new javax.swing.JLabel();
 
@@ -46,7 +54,7 @@ public class ForoFrame extends javax.swing.JFrame {
         btnGeneral.setBackground(new java.awt.Color(31, 41, 55));
         btnGeneral.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnGeneral.setForeground(new java.awt.Color(255, 255, 255));
-        btnGeneral.setText("General");
+        btnGeneral.setText("Bases de datos");
         btnGeneral.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnGeneral.setBorderPainted(false);
         btnGeneral.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -64,7 +72,7 @@ public class ForoFrame extends javax.swing.JFrame {
         btnTech.setBackground(new java.awt.Color(31, 41, 55));
         btnTech.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnTech.setForeground(new java.awt.Color(255, 255, 255));
-        btnTech.setText("Tecnologia");
+        btnTech.setText("Programacion");
         btnTech.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnTech.setBorderPainted(false);
         btnTech.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -77,7 +85,7 @@ public class ForoFrame extends javax.swing.JFrame {
         btnMusic.setBackground(new java.awt.Color(31, 41, 55));
         btnMusic.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnMusic.setForeground(new java.awt.Color(255, 255, 255));
-        btnMusic.setText("Musica");
+        btnMusic.setText("Tecnologia");
         btnMusic.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnMusic.setBorderPainted(false);
         btnMusic.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -90,7 +98,7 @@ public class ForoFrame extends javax.swing.JFrame {
         btnCinema.setBackground(new java.awt.Color(31, 41, 55));
         btnCinema.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         btnCinema.setForeground(new java.awt.Color(255, 255, 255));
-        btnCinema.setText("Cine");
+        btnCinema.setText("Videojuegos");
         btnCinema.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         btnCinema.setBorderPainted(false);
         btnCinema.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -109,6 +117,19 @@ public class ForoFrame extends javax.swing.JFrame {
         btnExit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExitActionPerformed(evt);
+            }
+        });
+
+        btnCinema1.setBackground(new java.awt.Color(31, 41, 55));
+        btnCinema1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        btnCinema1.setForeground(new java.awt.Color(255, 255, 255));
+        btnCinema1.setText("Off-Topic");
+        btnCinema1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        btnCinema1.setBorderPainted(false);
+        btnCinema1.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        btnCinema1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCinema1ActionPerformed(evt);
             }
         });
 
@@ -131,7 +152,10 @@ public class ForoFrame extends javax.swing.JFrame {
                             .addComponent(btnTech, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)))
                     .addGroup(pnlSidebarLayout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(btnExit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(btnExit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(pnlSidebarLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnCinema1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         pnlSidebarLayout.setVerticalGroup(
@@ -147,7 +171,9 @@ public class ForoFrame extends javax.swing.JFrame {
                 .addComponent(btnMusic, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnCinema, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 162, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCinema1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 117, Short.MAX_VALUE)
                 .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -194,24 +220,28 @@ public class ForoFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnGeneralMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGeneralMouseClicked
-        changeForo("general");
+        changeForo("Base de Datos",idUser);
     }//GEN-LAST:event_btnGeneralMouseClicked
 
     private void btnTechActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTechActionPerformed
-        changeForo("tecnologia");
+        changeForo("Programación",idUser);
     }//GEN-LAST:event_btnTechActionPerformed
 
     private void btnMusicActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMusicActionPerformed
-        changeForo("musica");
+        changeForo("Tecnología",idUser);
     }//GEN-LAST:event_btnMusicActionPerformed
 
     private void btnCinemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCinemaActionPerformed
-        changeForo("cine");
+        changeForo("Videojuegos",idUser);
     }//GEN-LAST:event_btnCinemaActionPerformed
 
     private void btnGeneralActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGeneralActionPerformed
-        changeForo("general");
+        changeForo("Base de Datos",idUser);
     }//GEN-LAST:event_btnGeneralActionPerformed
+
+    private void btnCinema1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCinema1ActionPerformed
+        changeForo("Off Topic", idUser);
+    }//GEN-LAST:event_btnCinema1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -251,6 +281,7 @@ public class ForoFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel base;
     private javax.swing.JButton btnCinema;
+    private javax.swing.JButton btnCinema1;
     private javax.swing.JButton btnExit;
     private javax.swing.JButton btnGeneral;
     private javax.swing.JButton btnMusic;
