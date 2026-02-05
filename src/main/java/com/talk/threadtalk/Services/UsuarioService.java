@@ -7,6 +7,7 @@ import java.util.Date;
 import com.talk.threadtalk.DAO.UsuarioDAO;
 import com.talk.threadtalk.Exceptions.UsuarioException;
 import com.talk.threadtalk.models.Usuario;
+import java.sql.SQLException;
 
 public class UsuarioService {
 
@@ -26,7 +27,7 @@ public class UsuarioService {
                     fechaNacimiento);
         } catch (ParseException e) {
             throw new UsuarioException("Formato de fecha inválido. Use: yyyy-MM-dd");
-        } catch (Exception e) {
+        } catch (SQLException e) {
             throw new UsuarioException("Error al registrar usuario", e);
         }
     }
@@ -55,8 +56,7 @@ public class UsuarioService {
             }
 
             return usuario;
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
             throw new UsuarioException("Error al iniciar sesión", e);
         }
     }
@@ -76,7 +76,7 @@ public class UsuarioService {
             }
 
             return true;
-        } catch (Exception e) {
+        } catch (UsuarioException | SQLException e) {
             throw new UsuarioException("Error eliminando usuario", e);
         }
     }
@@ -105,8 +105,18 @@ public class UsuarioService {
             }
 
             return true;
-        } catch (Exception e) {
+        } catch (UsuarioException | SQLException e) {
             throw new UsuarioException("Error actualizando usuario", e);
+        }
+    }
+
+    public String buscarUsuarioPorId(int idUsuario) {
+        try {
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+            return usuarioDAO.buscarUsuarioPorId(idUsuario);
+        } catch (SQLException e) {
+            System.err.println("Error en service buscarUsuarioPorId: " + e.getMessage());
+            return null;
         }
     }
 

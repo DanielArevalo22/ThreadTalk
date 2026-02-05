@@ -6,15 +6,14 @@ import java.util.List;
 import com.talk.threadtalk.DAO.ForoDAO;
 import com.talk.threadtalk.Exceptions.ForoException;
 import com.talk.threadtalk.models.Foro;
+import com.talk.threadtalk.models.MensajeForoDTO;
 
 public class ForoService {
-
-    private ForoDAO foroDAO;
 
     public boolean crearForo(String nombre) {
         validarNombre(nombre);
         try {
-    
+    ForoDAO foroDAO = new ForoDAO();
             Foro existente = foroDAO.buscarForoPorNombre(nombre.trim());
             if (existente != null) {
                 throw new ForoException("Ya existe un foro con ese nombre");
@@ -30,6 +29,7 @@ public class ForoService {
     public List<Foro> listarForos() {
 
         try {
+            ForoDAO foroDAO = new ForoDAO();
             return foroDAO.listarForos();
         } catch (SQLException e) {
             throw new ForoException("Error al obtener lista de foros");
@@ -39,6 +39,7 @@ public class ForoService {
     public Foro buscarForo(String nombre) {
         validarNombre(nombre);
         try {
+            ForoDAO foroDAO = new ForoDAO();
             Foro foro = foroDAO.buscarForoPorNombre(nombre.trim());
             if (foro == null) {
                 throw new ForoException("Foro no encontrado");
@@ -57,6 +58,7 @@ public class ForoService {
         validarNombre(nuevoNombre);
 
         try {
+            ForoDAO foroDAO = new ForoDAO();
             return foroDAO.editarForo(idForo, nuevoNombre.trim());
         } catch (SQLException e) {
             throw new ForoException("Error al actualizar foro");
@@ -70,9 +72,20 @@ public class ForoService {
         }
 
         try {
+            ForoDAO foroDAO = new ForoDAO();
             return foroDAO.eliminarForo(idForo);
         } catch (SQLException e) {
             throw new ForoException("Error al eliminar foro");
+        }
+    }
+    
+    public List<MensajeForoDTO> cargarForo(String tipo){
+        try {
+            ForoDAO foroDAO = new ForoDAO();
+            List<MensajeForoDTO> listaData = foroDAO.cargarForo(tipo);
+            return listaData;
+        } catch (SQLException e) {
+            throw new ForoException("Error al cargar foro");
         }
     }
 

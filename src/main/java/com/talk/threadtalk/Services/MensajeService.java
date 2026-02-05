@@ -9,13 +9,11 @@ import com.talk.threadtalk.models.Mensaje;
 
 public class MensajeService {
 
-    /* DECLARAR GLOBAL PARA EVITAR DUPLICIDAD DE OBJETOS DE TIPO MENSAJEDAO */
-    private MensajeDAO mensajeDAO;
-
     public boolean crearMensaje(String texto, int idUsuario, int idForo) {
         validarTexto(texto);
         validarIds(idUsuario, idForo);
         try {
+            MensajeDAO mensajeDAO = new MensajeDAO();
             return mensajeDAO.crearMensaje(texto.trim(), idUsuario, idForo);
         } catch (SQLException e) {
             throw new MensajeException("Error al guardar el mensaje");
@@ -25,6 +23,7 @@ public class MensajeService {
     public List<Mensaje> obtenerMensajes(int idUsuario, int idForo) {
         validarIds(idUsuario, idForo);
         try {
+            MensajeDAO mensajeDAO = new MensajeDAO();
             return mensajeDAO.buscarMensaje(idUsuario, idForo);
         } catch (SQLException e) {
             throw new MensajeException("Error al obtener mensajes del foro");
@@ -36,6 +35,7 @@ public class MensajeService {
             throw new MensajeException("ID del mensaje inválido");
         }
         try {
+            MensajeDAO mensajeDAO = new MensajeDAO();
             return mensajeDAO.borrarMensaje(idMensaje);
         } catch (SQLException e) {
             throw new MensajeException("Error al eliminar el mensaje");
@@ -48,6 +48,7 @@ public class MensajeService {
         }
         validarTexto(nuevoTexto);
         try {
+            MensajeDAO mensajeDAO = new MensajeDAO();
             return mensajeDAO.editarMensaje(idMensaje, nuevoTexto.trim());
         } catch (SQLException e) {
             throw new MensajeException("Error al actualizar el mensaje");
