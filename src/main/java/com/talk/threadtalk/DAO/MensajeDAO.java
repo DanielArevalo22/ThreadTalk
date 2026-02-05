@@ -13,18 +13,22 @@ import com.talk.threadtalk.models.Mensaje;
 public class MensajeDAO {
 
     public boolean crearMensaje(String texto, int idUsuario, int idForo) throws SQLException {
-        String sql = "INSERT INTO MENSAJES (texto, fechaEnvio, idUsuario, idForo) values (?,SYSDATE,?,?,'A')";
+        // Opción 1: Si fechaEnvio se llena automáticamente con SYSDATE
+        String sql = "INSERT INTO MENSAJES (texto, fecha_envio, id_usuario, id_foro, status) VALUES (?, NOW(), ?, ?, 'A')";
+
         Connection cn = Conexion.getConexion();
 
-        /* DE ESTA MANERA EL TRY CIERRA EL PREPAREDSTATEMENT */
-        try (PreparedStatement ps = cn.prepareStatement(sql);) {
-            ps.setString(1, texto);
-            ps.setInt(3, idUsuario);
-            ps.setInt(4, idForo);
+        try (PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setString(1, texto);     
+            ps.setInt(2, idUsuario);    
+            ps.setInt(3, idForo);      
+
             int cols = ps.executeUpdate();
             return cols > 0;
+
         } catch (SQLException e) {
-            throw new RuntimeException("ERROR CREATING MESSAGE -> " + e);
+            throw new RuntimeException("ERROR CREATING MESSAGE -> " + e.getMessage(), e);
+
         } finally {
             if (cn != null) {
                 cn.close();
@@ -64,10 +68,10 @@ public class MensajeDAO {
         }
     }
 
-    public boolean borrarMensaje(int idMensaje) throws SQLException{
+    public boolean borrarMensaje(int idMensaje) throws SQLException {
         String sql = "UPDATE MENSAJES SET STATUS = 'I' WHERE ID_MENSAJE = ?";
         Connection cn = Conexion.getConexion();
-        
+
         /* DE ESTA MANERA EL TRY CIERRA EL PREPAREDSTATEMENT */
         try (PreparedStatement ps = cn.prepareStatement(sql);) {
             ps.setInt(1, idMensaje);
@@ -75,14 +79,14 @@ public class MensajeDAO {
             return cols > 0;
         } catch (SQLException e) {
             throw new RuntimeException("ERROR ELIMINANDO MENSAJE -> " + e);
-        }finally{
-            if(cn!= null){
+        } finally {
+            if (cn != null) {
                 cn.close();
             }
         }
     }
 
-    public boolean editarMensaje(int idMensaje, String texto) throws SQLException{
+    public boolean editarMensaje(int idMensaje, String texto) throws SQLException {
         String sql = "UPDATE MENSAJES SET TEXTO = ? WHERE ID_MENSAJE = ?";
         Connection cn = Conexion.getConexion();
 
@@ -92,9 +96,9 @@ public class MensajeDAO {
             int cols = ps.executeUpdate();
             return cols > 0;
         } catch (Exception e) {
-             throw new RuntimeException("ERROR ACTUALIZANDO MENSAJE -> " + e);
-        }finally{
-            if (cn != null){
+            throw new RuntimeException("ERROR ACTUALIZANDO MENSAJE -> " + e);
+        } finally {
+            if (cn != null) {
                 cn.close();
             }
         }

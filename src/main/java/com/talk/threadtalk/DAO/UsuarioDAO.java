@@ -13,7 +13,7 @@ public class UsuarioDAO {
 
     public boolean createUser(String nombres, String username, String password, Date fechaNacimiento)
             throws SQLException {
-        String sql = "INSERT INTO USUARIOS (nombres, username,password,fecha_nacimiento,fecha_registro,status) VALUES (?,?,?,?,SYSDATE,'A')";
+        String sql = "INSERT INTO USUARIOS (nombres, username,password,fecha_nacimiento,fecha_registro,status) VALUES (?,?,?,?,NOW(),'A')";
         Connection cn = Conexion.getConexion();
 
         try (PreparedStatement ps = cn.prepareStatement(sql)) {
@@ -21,7 +21,10 @@ public class UsuarioDAO {
             ps.setString(1, nombres);
             ps.setString(2, username);
             ps.setString(3, password);
-            ps.setDate(4, (java.sql.Date) fechaNacimiento);
+
+            /* Convertir java.util.Date a java.sql.Date */
+            java.sql.Date sqlDate = new java.sql.Date(fechaNacimiento.getTime());
+            ps.setDate(4, sqlDate);
 
             /*
              * RETORNAMOS TRUE SI EL NUMERO DE COLUMNAS ES MAYOR A 0, QUIERE DECIR INSERT
@@ -44,7 +47,7 @@ public class UsuarioDAO {
         String sql = "SELECT id_usuario, nombres, username, password, status, fecha_nacimiento, fecha_registro FROM USUARIOS WHERE USERNAME = ? AND PASSWORD = ? AND STATUS = 'A'";
         Connection cn = Conexion.getConexion();
         try (PreparedStatement ps = cn.prepareStatement(sql)) {
-            
+
             /* SETEAMOS PARAMETROS EN QUERY */
             ps.setString(1, username);
             ps.setString(2, password);
@@ -74,7 +77,6 @@ public class UsuarioDAO {
             }
             return null;
         } catch (SQLException e) {
-            e.printStackTrace();
             throw new RuntimeException("ERROR BUSCANDO USARIO -> " + e);
         } finally {
             if (cn != null) {
@@ -83,7 +85,7 @@ public class UsuarioDAO {
         }
     }
 
-    public boolean eliminarUsuario(String username, String password) throws SQLException{
+    public boolean eliminarUsuario(String username, String password) throws SQLException {
         String sql = "UPDATE USUARIOS SET STATUS = 'I' WHERE USERNAME = ? AND PASSWORD = ?";
         Connection cn = Conexion.getConexion();
         try (PreparedStatement ps = cn.prepareStatement(sql)) {
@@ -91,17 +93,36 @@ public class UsuarioDAO {
             ps.setString(2, password);
             int cols = ps.executeUpdate();
             ps.close();
-             return cols > 0;
+            return cols > 0;
         } catch (SQLException e) {
             throw new RuntimeException("ERROR ELIMINANDO USUARIO ->" + e);
-        }finally{
-            if(cn != null){
+        } finally {
+            if (cn != null) {
                 cn.close();
             }
         }
     }
 
-    public boolean actualizarUsuario(String nombres, String username, String password) throws SQLException{
+    public String buscarUsuarioPorId(int idUsuario) throws SQLException {
+        String sql = "SELECT NOMBRES FROM USUARIOS WHERE ID_USUARIO = ? AND STATUS = 'A'";
+        Connection cn = Conexion.getConexion();
+        try (PreparedStatement ps = cn.prepareStatement(sql)) {
+            ps.setInt(1, idUsuario);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getString("NOMBRES");
+            }
+            return null;
+        } catch (SQLException e) {
+            throw new RuntimeException("ERROR BUSCANDO USUARIO -> " + e);
+        } finally {
+            if (cn != null) {
+                cn.close();
+            }
+        }
+    }
+
+    public boolean actualizarUsuario(String nombres, String username, String password) throws SQLException {
         String sql = "UPDATE USUARIOS SET NOMBRES = ?, USERNAME = ?, PASSWORD = ? WHERE USERNAME = ? AND PASSWORD = ? AND STATUS = 'A'";
         Connection cn = Conexion.getConexion();
         try (PreparedStatement ps = cn.prepareStatement(sql);) {
@@ -112,8 +133,8 @@ public class UsuarioDAO {
             return cols > 0;
         } catch (SQLException e) {
             throw new RuntimeException("ERROR ELIMINANDO USUARIO ->" + e);
-        }finally{
-            if (cn != null){
+        } finally {
+            if (cn != null) {
                 cn.close();
             }
         }
